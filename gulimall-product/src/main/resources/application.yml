@@ -1,0 +1,25 @@
+server:
+  port: 8083
+
+# mysql
+spring:
+  datasource:
+    #MySQL配置
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://82.157.125.33:3306/gulimall_pms?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 82.157.125.33:8848
+  application:
+    name: gulimall-product
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  global-config:
+    db-config:
+      #设置数据库ID自增
+      id-type: auto
+
+
