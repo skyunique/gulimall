@@ -1,0 +1,30 @@
+server:
+  port: 30000
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    alicloud:
+      #LTAIXbIkLws4f3xi
+      #R5thZTsuCWFMfZWAAwQkVvyGAFCyG1
+      access-key: LTAIXbIkLws4f3xi
+      secret-key: R5thZTsuCWFMfZWAAwQkVvyGAFCyG1
+      oss:
+        endpoint: oss-cn-beijing.aliyuncs.com
+        bucket: gulimall-img7
+
+  application:
+    name: gulimall-third-party
+
+# feign调用超时时间配置
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 10000
+        readTimeout: 600000
+logging:
+  level:
+    io.niceseason.gulimall.product: debug

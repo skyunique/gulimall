@@ -27,7 +27,7 @@ public class Skus {
     private BigDecimal discount;
     private int countStatus;
     private BigDecimal fullPrice;
-    private BigDecimal reducePrice;
+    private BigDecimal reducePrice;   //运算不会丢失相应的精度
     private int priceStatus;
     private List<MemberPrice> memberPrice;
 

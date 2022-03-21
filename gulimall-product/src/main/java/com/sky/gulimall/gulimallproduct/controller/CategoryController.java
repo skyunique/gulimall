@@ -1,15 +1,12 @@
 package com.sky.gulimall.gulimallproduct.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.sky.gulimall.gulimallproduct.entity.CategoryEntity;
 import com.sky.gulimall.gulimallproduct.service.CategoryService;
@@ -31,6 +28,18 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+
+    @GetMapping("/list/tree")
+    public R list(){
+
+        List<CategoryEntity> entities = categoryService.listWithTree();
+
+
+        return R.ok().put("data", entities);
+    }
+
+
+
     /**
      * 列表
      */
@@ -51,7 +60,7 @@ public class CategoryController {
     public R info(@PathVariable("catId") Long catId){
 		CategoryEntity category = categoryService.getById(catId);
 
-        return R.ok().put("category", category);
+        return R.ok().put("data", category);
     }
 
     /**
@@ -71,8 +80,19 @@ public class CategoryController {
     @RequestMapping("/update")
     //@RequiresPermissions("gulimallproduct:category:update")
     public R update(@RequestBody CategoryEntity category){
-		categoryService.updateById(category);
+		categoryService.updateCascade(category);
 
+        return R.ok();
+    }
+
+    /**
+     * 批量修改
+     * @param category
+     * @return
+     */
+    @RequestMapping("/update/sort")
+    public R updateSort(@RequestBody CategoryEntity [] category){
+        categoryService.updateBatchById(Arrays.asList(category));
         return R.ok();
     }
 
@@ -82,8 +102,9 @@ public class CategoryController {
     @RequestMapping("/delete")
     //@RequiresPermissions("gulimallproduct:category:delete")
     public R delete(@RequestBody Long[] catIds){
-		categoryService.removeByIds(Arrays.asList(catIds));
-
+		//删除之前需要判断待删除的菜单是否被别的地方所引用。
+//        categoryService.removeByIds(Arrays.asList(catIds));
+          categoryService.removeMenuByIds(Arrays.asList(catIds));
         return R.ok();
     }
 

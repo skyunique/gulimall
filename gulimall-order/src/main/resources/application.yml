@@ -3,15 +3,15 @@ spring:
   datasource:
     #MySQL配置
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://82.157.125.33:3306/gulimall_oms?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:3307/gulimall_oms?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
     password: root
-  cloud:
-    nacos:
-      discovery:
-        server-addr: 82.157.125.33:8848
-  application:
-    name: gulimall-order
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: localhost:8848
+#  application:
+#    name: gulimall-order
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
   global-config:
@@ -20,3 +20,11 @@ mybatis-plus:
       id-type: auto
 server:
   port: 8082
+
+# feign调用超时时间配置
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 10000
+        readTimeout: 600000

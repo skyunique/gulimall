@@ -1,10 +1,18 @@
 package com.sky.gulimall.gulimallproduct.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import java.util.ListIterator;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.sky.common.valid.AddGroup;
+import com.sky.common.valid.ListValue;
 import lombok.Data;
 
 /**
@@ -39,6 +47,8 @@ public class CategoryEntity implements Serializable {
 	/**
 	 * 是否显示[0-不显示，1显示]
 	 */
+	@ListValue(value = {0,1},groups = AddGroup.class)
+	@TableLogic(value = "1",delval = "0")
 	private Integer showStatus;
 	/**
 	 * 排序
@@ -56,5 +66,12 @@ public class CategoryEntity implements Serializable {
 	 * 商品数量
 	 */
 	private Integer productCount;
+
+	/**
+	 * 子目录节点
+	 */
+	@TableField(exist = false) //表示该字段不是数据库字段
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
+	private List<CategoryEntity> children;
 
 }

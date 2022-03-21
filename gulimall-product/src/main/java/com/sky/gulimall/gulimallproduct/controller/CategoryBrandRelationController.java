@@ -1,15 +1,16 @@
 package com.sky.gulimall.gulimallproduct.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.sky.gulimall.gulimallproduct.entity.BrandEntity;
+import com.sky.gulimall.gulimallproduct.vo.BrandVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.sky.gulimall.gulimallproduct.entity.CategoryBrandRelationEntity;
 import com.sky.gulimall.gulimallproduct.service.CategoryBrandRelationService;
@@ -42,6 +43,28 @@ public class CategoryBrandRelationController {
         return R.ok().put("page", page);
     }
 
+    @RequestMapping("catelog/list")
+    public R cateloglist(@RequestParam Long brandId){
+        QueryWrapper<CategoryBrandRelationEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("brand_id",brandId);
+        List<CategoryBrandRelationEntity> data = categoryBrandRelationService.list(queryWrapper);
+
+        return R.ok().put("data",data);
+    }
+
+    //product/categorybrandrelation/brands/list
+    @GetMapping("/brands/list")
+    public  R getBrandList(@RequestParam(value = "catId",required = true) Long catId){
+        List<BrandEntity> vos = categoryBrandRelationService.getBrandsByCatId(catId);
+        List<BrandVo> collect = vos.stream().map(item -> {
+            BrandVo brandVo = new BrandVo();
+            brandVo.setBrandId(item.getBrandId());
+            brandVo.setBrandName(item.getName());
+            return brandVo;
+        }).collect(Collectors.toList());
+
+        return R.ok().put("data",collect);
+    }
 
     /**
      * 信息
@@ -60,7 +83,8 @@ public class CategoryBrandRelationController {
     @RequestMapping("/save")
     //@RequiresPermissions("gulimallproduct:categorybrandrelation:save")
     public R save(@RequestBody CategoryBrandRelationEntity categoryBrandRelation){
-		categoryBrandRelationService.save(categoryBrandRelation);
+		//categoryBrandRelationService.save(categoryBrandRelation);
+        categoryBrandRelationService.saveDetail(categoryBrandRelation);
 
         return R.ok();
     }
