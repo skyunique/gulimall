@@ -7,10 +7,10 @@ spring:
       discovery:
         server-addr: localhost:8848
     alicloud:
-      #LTAIXbIkLws4f3xi3
-      #R5thZTsuCWFMfZWAAwQkVvyGAFCyG14
-      access-key: LTAIXbIkLws4f3xi3
-      secret-key: R5thZTsuCWFMfZWAAwQkVvyGAFCyG14
+      #LTAIXbIkLws4f3xi345
+      #R5thZTsuCWFMfZWAAwQkVvyGAFCyG142
+      access-key: LTAIXbIkLws4f3xi345
+      secret-key: R5thZTsuCWFMfZWAAwQkVvyGAFCyG142
       oss:
         endpoint: oss-cn-beijing.aliyuncs.com
         bucket: gulimall-img7
